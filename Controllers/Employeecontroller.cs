@@ -36,11 +36,17 @@ public class EmployeeController : ControllerBase
         [HttpPost]
         public ActionResult<Employee> ADDEmployee(Employee employee)
         {
+            try
+            {
             employee.Id = employees.Count + 1;
             employees.Add(employee);
             return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id }, employee);
+            }
+            catch (Exception)
+            {
+                return  StatusCode(500, "An error occurred while creating the employee.");
+            }   
         }
-
         [HttpPut("{id}")]
         public IActionResult UpdateEmployee(int id, Employee employee)
         {
